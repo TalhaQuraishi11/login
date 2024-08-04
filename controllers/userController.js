@@ -214,4 +214,23 @@ const verifyAndUpdateProfile = asyncHandler(async (req, res) => {
     token: generateToken(updatedUser._id),
   });
 });
-module.exports = { login, register, requestProfileUpdate, verifyAndUpdateProfile, getUsers };
+
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Ensure the user to delete exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Delete the user
+    await User.findByIdAndDelete(userId);
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+})
+module.exports = { login, register, requestProfileUpdate, verifyAndUpdateProfile, getUsers ,deleteUser };

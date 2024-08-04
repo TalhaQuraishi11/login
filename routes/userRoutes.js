@@ -4,7 +4,8 @@ const {
   login,
   register,
   requestProfileUpdate,
-  verifyAndUpdateProfile
+  verifyAndUpdateProfile,
+  deleteUser,
 } = require('../controllers/userController'); // Adjusted to CommonJS
 const { admin, protect } = require('../middlewares/authMiddleware'); // Adjusted to CommonJS
 
@@ -24,5 +25,6 @@ router.put('/verify-and-update-profile/:id', verifyAndUpdateProfile);
 
 // Get all users - Protected and accessible only by admin
 router.get('/', protect, admin, getUsers);
+router.delete('/users/:id', protect, admin, deleteUser);
 
 module.exports = router;
